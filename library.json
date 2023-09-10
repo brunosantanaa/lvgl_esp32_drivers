@@ -9,13 +9,15 @@
 	},
 	"build": {
 		"includeDir": ".",
+		"srcDir": ".",
+		"srcFilter": "+<*.c> +<lvgl_touch/*.c> +<lvgl_tft/*.c> +<lvgl_i2c/*.c>",
     "flags": [
       "-I lvgl_touch",
       "-I lvgl_tft",
       "-I lvgl_i2c"
     ]
 	},
-	"license": "",
+	"license": "MIT",
 	"homepage": "https://lvgl.io",
 	"frameworks": "espidf",
 	"platforms": "espressif32"
