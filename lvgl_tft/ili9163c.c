@@ -6,6 +6,7 @@
 /*********************
  *      INCLUDES
  *********************/
+#if CONFIG_LV_TFT_DISPLAY_CONTROLLER_ILI9163C
 #include "ili9163c.h"
 #include "disp_spi.h"
 #include "driver/gpio.h"
@@ -83,7 +84,7 @@ typedef struct
 {
 	uint8_t cmd;
 	uint8_t data[16];
-	uint8_t databytes; //No of data in data; bit 7 = delay after set; 0xFF = end of cmds.
+	uint8_t databytes; // No of data in data; bit 7 = delay after set; 0xFF = end of cmds.
 } lcd_init_cmd_t;
 
 /**********************
@@ -112,44 +113,44 @@ void ili9163c_init(void)
 	ESP_LOGD(TAG, "Init");
 
 	lcd_init_cmd_t ili_init_cmds[] = {
-		{ILI9163C_SWRESET, {0}, 0x80},		 // Software reset, 0 args, w/delay 120ms
-		{ILI9163C_SLPOUT, {0}, 0x80},		 // Out of sleep mode, 0 args, w/delay 5ms
-		{ILI9163C_CMD_GAMST, {0x04}, 1},	 // Gamma Curve
+		{ILI9163C_SWRESET, {0}, 0x80},			 // Software reset, 0 args, w/delay 120ms
+		{ILI9163C_SLPOUT, {0}, 0x80},				 // Out of sleep mode, 0 args, w/delay 5ms
+		{ILI9163C_CMD_GAMST, {0x04}, 1},		 // Gamma Curve
 		{ILI9163C_FRMCTR1, {0x0C, 0x14}, 2}, // Frame rate ctrl - normal mode
-		{ILI9163C_INVCTR, {0x07}, 1},		 // Display inversion ctrl, 1 arg, no delay:No inversion
+		{ILI9163C_INVCTR, {0x07}, 1},				 // Display inversion ctrl, 1 arg, no delay:No inversion
 		{ILI9163C_PWCTR1, {0x0C, 0x05}, 2},	 // Power control, 2 args, no delay
-		{ILI9163C_PWCTR2, {0x02}, 1},		 // Power control, 1 arg
-		{ILI9163C_PWCTR3, {0x02}, 1},		 // Power control, 1 arg
+		{ILI9163C_PWCTR2, {0x02}, 1},				 // Power control, 1 arg
+		{ILI9163C_PWCTR3, {0x02}, 1},				 // Power control, 1 arg
 		{ILI9163C_VMCTR1, {0x20, 0x55}, 2},	 // Power control, 1 arg, no delay:
-		{ILI9163C_VMCOFFS, {0x40}, 1},		 // VCOM Offset
+		{ILI9163C_VMCOFFS, {0x40}, 1},			 // VCOM Offset
 #if ILI9163C_INVERT_COLORS == 1
 		{ILI9163C_INVON, {0}, 0}, // set inverted mode
 #else
 		{ILI9163C_INVOFF, {0}, 0}, // set non-inverted mode
 #endif
-		{ILI9163C_COLMOD, {0x5}, 1}, // set color mode, 1 arg, no delay: 16-bit color
-		{ILI9163C_SDDC, {0}, 1},	  // set source driver direction control
-		{ILI9163C_GAMCTL, {0x01}, 1}, // set source driver direction control
+		{ILI9163C_COLMOD, {0x5}, 1},																																												// set color mode, 1 arg, no delay: 16-bit color
+		{ILI9163C_SDDC, {0}, 1},																																														// set source driver direction control
+		{ILI9163C_GAMCTL, {0x01}, 1},																																												// set source driver direction control
 		{ILI9163C_GMCTRP1, {0x36, 0x29, 0x12, 0x22, 0x1C, 0x15, 0x42, 0xB7, 0x2F, 0x13, 0x12, 0x0A, 0x11, 0x0B, 0x06}, 16}, // 16 args, no delay:
 		{ILI9163C_GMCTRN1, {0x09, 0x16, 0x2D, 0x0D, 0x13, 0x15, 0x40, 0x48, 0x53, 0x0C, 0x1D, 0x25, 0x2E, 0x34, 0x39}, 16}, // 16 args, no delay:
-		{ILI9163C_NORON, {0}, 0x80},																						// Normal display on, no args, w/delay 10 ms delay
-		{ILI9163C_DISPON, {0}, 0x80},																						// Main screen turn on, no args w/delay 100 ms delay
+		{ILI9163C_NORON, {0}, 0x80},																																												// Normal display on, no args, w/delay 10 ms delay
+		{ILI9163C_DISPON, {0}, 0x80},																																												// Main screen turn on, no args w/delay 100 ms delay
 		{0, {0}, 0xff}
 	};
 
-	//Initialize non-SPI GPIOs
+	// Initialize non-SPI GPIOs
 	gpio_pad_select_gpio(ILI9163C_DC);
 	gpio_set_direction(ILI9163C_DC, GPIO_MODE_OUTPUT);
 	gpio_pad_select_gpio(ILI9163C_RST);
 	gpio_set_direction(ILI9163C_RST, GPIO_MODE_OUTPUT);
 
-	//Reset the display
+	// Reset the display
 	gpio_set_level(ILI9163C_RST, 0);
 	vTaskDelay(100 / portTICK_RATE_MS);
 	gpio_set_level(ILI9163C_RST, 1);
 	vTaskDelay(150 / portTICK_RATE_MS);
 
-	//Send all the commands
+	// Send all the commands
 	uint16_t cmd = 0;
 	while (ili_init_cmds[cmd].databytes != 0xff)
 	{
@@ -237,7 +238,7 @@ static void ili9163c_set_orientation(uint8_t orientation)
 	assert(orientation < 4);
 
 	const char *orientation_str[] = {
-		"PORTRAIT", "PORTRAIT_INVERTED", "LANDSCAPE", "LANDSCAPE_INVERTED"};
+			"PORTRAIT", "PORTRAIT_INVERTED", "LANDSCAPE", "LANDSCAPE_INVERTED"};
 
 	ESP_LOGD(TAG, "Display orientation: %s", orientation_str[orientation]);
 
@@ -246,3 +247,4 @@ static void ili9163c_set_orientation(uint8_t orientation)
 	ili9163c_send_cmd(ILI9163C_MADCTL);
 	ili9163c_send_data((void *)&data[orientation], 1);
 }
+#endif // CONFIG_LV_TFT_DISPLAY_CONTROLLER_ILI9163C

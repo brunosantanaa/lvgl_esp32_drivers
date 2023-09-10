@@ -60,3 +60,4 @@ build
 # Kconfig files
 sdkconfig
 sdkconfig.old
+platformio.ini

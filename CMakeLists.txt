@@ -1,4 +1,7 @@
-if(ESP_PLATFORM)
+cmake_minimum_required(VERSION 3.16.0)
+project(lvgl_esp32_drivers)
+
+include($ENV{IDF_PATH}/tools/cmake/project.cmake)
 
 file(GLOB SOURCES *.c)
 set(LVGL_INCLUDE_DIRS . lvgl_tft)
@@ -89,7 +92,3 @@ idf_component_register(SRCS ${SOURCES}
                        REQUIRES lvgl)
 
 target_compile_definitions(${COMPONENT_LIB} PUBLIC "-DLV_LVGL_H_INCLUDE_SIMPLE")
-
-else()
-    message(FATAL_ERROR "LVGL ESP32 drivers: ESP_PLATFORM is not defined. Try reinstalling ESP-IDF.")
-endif()

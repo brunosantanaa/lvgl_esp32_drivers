@@ -6,6 +6,7 @@
 /*********************
  *      INCLUDES
  *********************/
+#if CONFIG_LV_TFT_DISPLAY_CONTROLLER_ST7796S
 #include "st7796s.h"
 #include "disp_spi.h"
 #include "driver/gpio.h"
@@ -27,7 +28,7 @@ typedef struct
 {
 	uint8_t cmd;
 	uint8_t data[16];
-	uint8_t databytes; //No of data in data; bit 7 = delay after set; 0xFF = end of cmds.
+	uint8_t databytes; // No of data in data; bit 7 = delay after set; 0xFF = end of cmds.
 } lcd_init_cmd_t;
 
 /**********************
@@ -54,34 +55,34 @@ static void st7796s_send_color(void *data, uint16_t length);
 void st7796s_init(void)
 {
 	lcd_init_cmd_t init_cmds[] = {
-		{0xCF, {0x00, 0x83, 0X30}, 3},
-		{0xED, {0x64, 0x03, 0X12, 0X81}, 4},
-		{0xE8, {0x85, 0x01, 0x79}, 3},
-		{0xCB, {0x39, 0x2C, 0x00, 0x34, 0x02}, 5},
-		{0xF7, {0x20}, 1},
-		{0xEA, {0x00, 0x00}, 2},
-		{0xC0, {0x26}, 1},		 /*Power control*/
-		{0xC1, {0x11}, 1},		 /*Power control */
-		{0xC5, {0x35, 0x3E}, 2}, /*VCOM control*/
-		{0xC7, {0xBE}, 1},		 /*VCOM control*/
-		{0x36, {0x28}, 1},		 /*Memory Access Control*/
-		{0x3A, {0x55}, 1},		 /*Pixel Format Set*/
-		{0xB1, {0x00, 0x1B}, 2},
-		{0xF2, {0x08}, 1},
-		{0x26, {0x01}, 1},
-		{0xE0, {0x1F, 0x1A, 0x18, 0x0A, 0x0F, 0x06, 0x45, 0X87, 0x32, 0x0A, 0x07, 0x02, 0x07, 0x05, 0x00}, 15},
-		{0XE1, {0x00, 0x25, 0x27, 0x05, 0x10, 0x09, 0x3A, 0x78, 0x4D, 0x05, 0x18, 0x0D, 0x38, 0x3A, 0x1F}, 15},
-		{0x2A, {0x00, 0x00, 0x00, 0xEF}, 4},
-		{0x2B, {0x00, 0x00, 0x01, 0x3f}, 4},
-		{0x2C, {0}, 0},
-		{0xB7, {0x07}, 1},
-		{0xB6, {0x0A, 0x82, 0x27, 0x00}, 4},
-		{0x11, {0}, 0x80},
-		{0x29, {0}, 0x80},
-		{0, {0}, 0xff},
+			{0xCF, {0x00, 0x83, 0X30}, 3},
+			{0xED, {0x64, 0x03, 0X12, 0X81}, 4},
+			{0xE8, {0x85, 0x01, 0x79}, 3},
+			{0xCB, {0x39, 0x2C, 0x00, 0x34, 0x02}, 5},
+			{0xF7, {0x20}, 1},
+			{0xEA, {0x00, 0x00}, 2},
+			{0xC0, {0x26}, 1},			 /*Power control*/
+			{0xC1, {0x11}, 1},			 /*Power control */
+			{0xC5, {0x35, 0x3E}, 2}, /*VCOM control*/
+			{0xC7, {0xBE}, 1},			 /*VCOM control*/
+			{0x36, {0x28}, 1},			 /*Memory Access Control*/
+			{0x3A, {0x55}, 1},			 /*Pixel Format Set*/
+			{0xB1, {0x00, 0x1B}, 2},
+			{0xF2, {0x08}, 1},
+			{0x26, {0x01}, 1},
+			{0xE0, {0x1F, 0x1A, 0x18, 0x0A, 0x0F, 0x06, 0x45, 0X87, 0x32, 0x0A, 0x07, 0x02, 0x07, 0x05, 0x00}, 15},
+			{0XE1, {0x00, 0x25, 0x27, 0x05, 0x10, 0x09, 0x3A, 0x78, 0x4D, 0x05, 0x18, 0x0D, 0x38, 0x3A, 0x1F}, 15},
+			{0x2A, {0x00, 0x00, 0x00, 0xEF}, 4},
+			{0x2B, {0x00, 0x00, 0x01, 0x3f}, 4},
+			{0x2C, {0}, 0},
+			{0xB7, {0x07}, 1},
+			{0xB6, {0x0A, 0x82, 0x27, 0x00}, 4},
+			{0x11, {0}, 0x80},
+			{0x29, {0}, 0x80},
+			{0, {0}, 0xff},
 	};
 
-	//Initialize non-SPI GPIOs
+	// Initialize non-SPI GPIOs
 	gpio_pad_select_gpio(ST7796S_DC);
 	gpio_set_direction(ST7796S_DC, GPIO_MODE_OUTPUT);
 
@@ -89,7 +90,7 @@ void st7796s_init(void)
 	gpio_pad_select_gpio(ST7796S_RST);
 	gpio_set_direction(ST7796S_RST, GPIO_MODE_OUTPUT);
 
-	//Reset the display
+	// Reset the display
 	gpio_set_level(ST7796S_RST, 0);
 	vTaskDelay(100 / portTICK_RATE_MS);
 	gpio_set_level(ST7796S_RST, 1);
@@ -98,7 +99,7 @@ void st7796s_init(void)
 
 	ESP_LOGI(TAG, "Initialization.");
 
-	//Send all the commands
+	// Send all the commands
 	uint16_t cmd = 0;
 	while (init_cmds[cmd].databytes != 0xff)
 	{
@@ -192,7 +193,7 @@ static void st7796s_set_orientation(uint8_t orientation)
 	// ESP_ASSERT(orientation < 4);
 
 	const char *orientation_str[] = {
-		"PORTRAIT", "PORTRAIT_INVERTED", "LANDSCAPE", "LANDSCAPE_INVERTED"};
+			"PORTRAIT", "PORTRAIT_INVERTED", "LANDSCAPE", "LANDSCAPE_INVERTED"};
 
 	ESP_LOGI(TAG, "Display orientation: %s", orientation_str[orientation]);
 
@@ -211,3 +212,4 @@ static void st7796s_set_orientation(uint8_t orientation)
 	st7796s_send_cmd(0x36);
 	st7796s_send_data((void *)&data[orientation], 1);
 }
+#endif // CONFIG_LV_TFT_DISPLAY_CONTROLLER_ST7796S

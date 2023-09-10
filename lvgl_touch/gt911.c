@@ -1,23 +1,23 @@
 /*
 * Copyright © 2021 Sturnus Inc.
 
-* Permission is hereby granted, free of charge, to any person obtaining a copy of this 
-* software and associated documentation files (the “Software”), to deal in the Software 
-* without restriction, including without limitation the rights to use, copy, modify, merge, 
-* publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons 
+* Permission is hereby granted, free of charge, to any person obtaining a copy of this
+* software and associated documentation files (the “Software”), to deal in the Software
+* without restriction, including without limitation the rights to use, copy, modify, merge,
+* publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons
 * to whom the Software is furnished to do so, subject to the following conditions:
 *
-* The above copyright notice and this permission notice shall be included in all copies or 
+* The above copyright notice and this permission notice shall be included in all copies or
 * substantial portions of the Software.
-* 
-* THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, 
-* INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR 
-* PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE 
-* FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, 
-* ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE 
+*
+* THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
+* INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR
+* PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE
+* FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
+* ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 * SOFTWARE.
 */
-
+#if CONFIG_LV_TOUCH_CONTROLLER_GT911
 #include <esp_log.h>
 #ifdef LV_LVGL_H_INCLUDE_SIMPLE
 #include <lvgl.h>
@@ -32,36 +32,42 @@
 
 gt911_status_t gt911_status;
 
-//TODO: handle multibyte read and refactor to just one read transaction
-esp_err_t gt911_i2c_read(uint8_t slave_addr, uint16_t register_addr, uint8_t *data_buf, uint8_t len) {
+// TODO: handle multibyte read and refactor to just one read transaction
+esp_err_t gt911_i2c_read(uint8_t slave_addr, uint16_t register_addr, uint8_t *data_buf, uint8_t len)
+{
     return lvgl_i2c_read(CONFIG_LV_I2C_TOUCH_PORT, slave_addr, register_addr | I2C_REG_16, data_buf, len);
 }
 
-esp_err_t gt911_i2c_write8(uint8_t slave_addr, uint16_t register_addr, uint8_t data) {
+esp_err_t gt911_i2c_write8(uint8_t slave_addr, uint16_t register_addr, uint8_t data)
+{
     uint8_t buffer = data;
     return lvgl_i2c_write(CONFIG_LV_I2C_TOUCH_PORT, slave_addr, register_addr | I2C_REG_16, &buffer, 1);
 }
 
 /**
-  * @brief  Initialize for GT911 communication via I2C
-  * @param  dev_addr: Device address on communication Bus (I2C slave address of GT911).
-  * @retval None
-  */
-void gt911_init(uint8_t dev_addr) {
-    if (!gt911_status.inited) {
+ * @brief  Initialize for GT911 communication via I2C
+ * @param  dev_addr: Device address on communication Bus (I2C slave address of GT911).
+ * @retval None
+ */
+void gt911_init(uint8_t dev_addr)
+{
+    if (!gt911_status.inited)
+    {
         gt911_status.i2c_dev_addr = dev_addr;
         uint8_t data_buf;
         esp_err_t ret;
 
         ESP_LOGI(TAG, "Checking for GT911 Touch Controller");
-        if ((ret = gt911_i2c_read(dev_addr, GT911_PRODUCT_ID1, &data_buf, 1) != ESP_OK)) {
+        if ((ret = gt911_i2c_read(dev_addr, GT911_PRODUCT_ID1, &data_buf, 1) != ESP_OK))
+        {
             ESP_LOGE(TAG, "Error reading from device: %s",
-                        esp_err_to_name(ret));    // Only show error the first time
+                     esp_err_to_name(ret)); // Only show error the first time
             return;
         }
 
         // Read 4 bytes for Product ID in ASCII
-        for (int i = 0; i < GT911_PRODUCT_ID_LEN; i++) {
+        for (int i = 0; i < GT911_PRODUCT_ID_LEN; i++)
+        {
             gt911_i2c_read(dev_addr, (GT911_PRODUCT_ID1 + i), (uint8_t *)&(gt911_status.product_id[i]), 1);
         }
         ESP_LOGI(TAG, "\tProduct ID: %s", gt911_status.product_id);
@@ -85,34 +91,37 @@ void gt911_init(uint8_t dev_addr) {
 }
 
 /**
-  * @brief  Get the touch screen X and Y positions values. Ignores multi touch
-  * @param  drv:
-  * @param  data: Store data here
-  * @retval Always false
-  */
-bool gt911_read(lv_indev_drv_t *drv, lv_indev_data_t *data) {
-    uint8_t touch_pnt_cnt;        // Number of detected touch points
-    static int16_t last_x = 0;  // 12bit pixel value
-    static int16_t last_y = 0;  // 12bit pixel value
+ * @brief  Get the touch screen X and Y positions values. Ignores multi touch
+ * @param  drv:
+ * @param  data: Store data here
+ * @retval Always false
+ */
+bool gt911_read(lv_indev_drv_t *drv, lv_indev_data_t *data)
+{
+    uint8_t touch_pnt_cnt;     // Number of detected touch points
+    static int16_t last_x = 0; // 12bit pixel value
+    static int16_t last_y = 0; // 12bit pixel value
     uint8_t data_buf;
     uint8_t status_reg;
 
     gt911_i2c_read(gt911_status.i2c_dev_addr, GT911_STATUS_REG, &status_reg, 1);
-//    ESP_LOGI(TAG, "\tstatus: 0x%02x", status_reg);
+    //    ESP_LOGI(TAG, "\tstatus: 0x%02x", status_reg);
     touch_pnt_cnt = status_reg & 0x0F;
-    if ((status_reg & 0x80) || (touch_pnt_cnt < 6)) {
-        //Reset Status Reg Value
+    if ((status_reg & 0x80) || (touch_pnt_cnt < 6))
+    {
+        // Reset Status Reg Value
         gt911_i2c_write8(gt911_status.i2c_dev_addr, GT911_STATUS_REG, 0x00);
     }
-    if (touch_pnt_cnt != 1) {    // ignore no touch & multi touch
+    if (touch_pnt_cnt != 1)
+    { // ignore no touch & multi touch
         data->point.x = last_x;
         data->point.y = last_y;
         data->state = LV_INDEV_STATE_REL;
         return false;
     }
 
-//    gt911_i2c_read(gt911_status.i2c_dev_addr, GT911_TRACK_ID1, &data_buf, 1);
-//    ESP_LOGI(TAG, "\ttrack_id: %d", data_buf);
+    //    gt911_i2c_read(gt911_status.i2c_dev_addr, GT911_TRACK_ID1, &data_buf, 1);
+    //    ESP_LOGI(TAG, "\ttrack_id: %d", data_buf);
 
     gt911_i2c_read(gt911_status.i2c_dev_addr, GT911_PT1_X_COORD_L, &data_buf, 1);
     last_x = data_buf;
@@ -142,3 +151,4 @@ bool gt911_read(lv_indev_drv_t *drv, lv_indev_data_t *data) {
     ESP_LOGV(TAG, "X=%u Y=%u", data->point.x, data->point.y);
     return false;
 }
+#endif // CONFIG_LV_TOUCH_CONTROLLER_GT911
