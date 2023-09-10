@@ -6,6 +6,7 @@
 /*********************
  *      INCLUDES
  *********************/
+#include "sdkconfig.h"
 #if CONFIG_LV_TFT_DISPLAY_CONTROLLER_ILI9341
 #include "ili9341.h"
 #include "disp_spi.h"

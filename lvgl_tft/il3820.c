@@ -28,6 +28,7 @@ TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR TH
 /*********************
  *      INCLUDES
  *********************/
+#include "sdkconfig.h"
 #if CONFIG_LV_TFT_DISPLAY_CONTROLLER_IL3820
 #include "disp_spi.h"
 #include "driver/gpio.h"

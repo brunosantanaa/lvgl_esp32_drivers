@@ -15,8 +15,8 @@ extern "C"
  *********************/
 #include <stdbool.h>
 #include <stdint.h>
-
-#ifdef LV_LVGL_H_INCLUDE_SIMPLE
+#include "sdkconfig.h"
+#ifdef CONFIG_LV_LVGL_H_INCLUDE_SIMPLE
 #include "lvgl.h"
 #else
 #include "lvgl/lvgl.h"
@@ -26,16 +26,15 @@ extern "C"
 /*********************
  *      DEFINES
  *********************/
-#define ST7796S_DC                  CONFIG_LV_DISP_PIN_DC
-#define ST7796S_RST                 CONFIG_LV_DISP_PIN_RST
-#define ST7796S_USE_RST             CONFIG_LV_DISP_USE_RST
-#define ST7796S_INVERT_COLORS       CONFIG_LV_INVERT_COLORS
+#define ST7796S_DC CONFIG_LV_DISP_PIN_DC
+#define ST7796S_RST CONFIG_LV_DISP_PIN_RST
+#define ST7796S_USE_RST CONFIG_LV_DISP_USE_RST
+#define ST7796S_INVERT_COLORS CONFIG_LV_INVERT_COLORS
 #define ST7796S_DISPLAY_ORIENTATION CONFIG_LV_DISPLAY_ORIENTATION
-
 
 /*******************
  * ST7796S REGS
-*********************/
+ *********************/
 
 /* MIPI DCS Type1  */
 #define ST7796S_CMD_NOP 0x00
@@ -102,19 +101,19 @@ extern "C"
 #define ST7796S_CMD_NVMEM_PROTECTION 0xE3
 
   /**********************
- *      TYPEDEFS
- **********************/
+   *      TYPEDEFS
+   **********************/
 
   /**********************
- * GLOBAL PROTOTYPES
- **********************/
+   * GLOBAL PROTOTYPES
+   **********************/
 
   void st7796s_init(void);
   void st7796s_flush(lv_disp_drv_t *drv, const lv_area_t *area, lv_color_t *color_map);
 
   /**********************
- *      MACROS
- **********************/
+   *      MACROS
+   **********************/
 
 #ifdef __cplusplus
 } /* extern "C" */

@@ -13,6 +13,7 @@
 /*********************
  *      INCLUDES
  *********************/
+#include "sdkconfig.h"
 #if CONFIG_LV_TFT_DISPLAY_CONTROLLER_SSD1306
 #include "assert.h"
 

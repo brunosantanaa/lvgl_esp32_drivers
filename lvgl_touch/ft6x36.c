@@ -17,9 +17,10 @@
 * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 * SOFTWARE.
 */
+#include "sdkconfig.h"
 #if CONFIG_LV_TOUCH_CONTROLLER_FT6X06
 #include <esp_log.h>
-#ifdef LV_LVGL_H_INCLUDE_SIMPLE
+#ifdef CONFIG_LV_LVGL_H_INCLUDE_SIMPLE
 #include <lvgl.h>
 #else
 #include <lvgl/lvgl.h>

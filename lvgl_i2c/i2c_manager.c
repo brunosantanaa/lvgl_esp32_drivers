@@ -25,7 +25,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 
 */
-#if CONFIG_LV_I2C
+
 #include <stdint.h>
 #include <stddef.h>
 
@@ -37,7 +37,7 @@ SOFTWARE.
 #include <driver/i2c.h>
 
 #include "sdkconfig.h"
-
+#if CONFIG_LV_I2C
 #include "i2c_manager.h"
 
 #if defined __has_include

@@ -6,6 +6,7 @@
 /*********************
  *      INCLUDES
  *********************/
+#include "sdkconfig.h"
 #if CONFIG_LV_TFT_DISPLAY_CONTROLLER_RA8875
 #include "ra8875.h"
 #include "disp_spi.h"

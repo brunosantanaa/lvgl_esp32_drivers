@@ -1,5 +1,15 @@
 menu "LVGL ESP Drivers"
+    config SPI_HOST_MAX
+        int
+        prompt "Maximum number of SPI ports"
 
+        default 2
+    config LV_LVGL_H_INCLUDE_SIMPLE
+        bool
+        prompt "LVGL declaration without being a subfolder"
+
+        default y
+  
     rsource "lvgl_tft/Kconfig"
 
     rsource "lvgl_touch/Kconfig"

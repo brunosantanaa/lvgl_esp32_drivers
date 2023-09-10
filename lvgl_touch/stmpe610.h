@@ -6,16 +6,18 @@
 #define STMPE610_H
 
 #ifdef __cplusplus
-extern "C" {
+extern "C"
+{
 #endif
 
-/*********************
- *      INCLUDES
- *********************/
+  /*********************
+   *      INCLUDES
+   *********************/
 
 #include <stdint.h>
 #include <stdbool.h>
-#ifdef LV_LVGL_H_INCLUDE_SIMPLE
+#include "sdkconfig.h"
+#ifdef CONFIG_LV_LVGL_H_INCLUDE_SIMPLE
 #include "lvgl.h"
 #else
 #include "lvgl/lvgl.h"
@@ -82,8 +84,8 @@ extern "C" {
 
 /** ADC control **/
 #define STMPE_ADC_CTRL1 0x20
-#define STMPE_ADC_CTRL1_INT   0x00
-#define STMPE_ADC_CTRL1_EXT   0x02
+#define STMPE_ADC_CTRL1_INT 0x00
+#define STMPE_ADC_CTRL1_EXT 0x02
 #define STMPE_ADC_CTRL1_12BIT 0x08
 #define STMPE_ADC_CTRL1_10BIT 0x00
 #define STMPE_ADC_CTRL1_36CLK 0x00
@@ -154,29 +156,28 @@ extern "C" {
 #define STMPE_GPIO_DIR 0x13
 #define STMPE_GPIO_ALT_FUNCT 0x17
 
-
 /** Calibration Constants **/
-#define STMPE610_X_MIN       CONFIG_LV_TOUCH_X_MIN
-#define STMPE610_Y_MIN       CONFIG_LV_TOUCH_Y_MIN
-#define STMPE610_X_MAX       CONFIG_LV_TOUCH_X_MAX
-#define STMPE610_Y_MAX       CONFIG_LV_TOUCH_Y_MAX
-#define STMPE610_XY_SWAP     CONFIG_LV_TOUCH_XY_SWAP
-#define STMPE610_X_INV       CONFIG_LV_TOUCH_INVERT_X
-#define STMPE610_Y_INV       CONFIG_LV_TOUCH_INVERT_Y
+#define STMPE610_X_MIN CONFIG_LV_TOUCH_X_MIN
+#define STMPE610_Y_MIN CONFIG_LV_TOUCH_Y_MIN
+#define STMPE610_X_MAX CONFIG_LV_TOUCH_X_MAX
+#define STMPE610_Y_MAX CONFIG_LV_TOUCH_Y_MAX
+#define STMPE610_XY_SWAP CONFIG_LV_TOUCH_XY_SWAP
+#define STMPE610_X_INV CONFIG_LV_TOUCH_INVERT_X
+#define STMPE610_Y_INV CONFIG_LV_TOUCH_INVERT_Y
 
-/**********************
- *      TYPEDEFS
- **********************/
+  /**********************
+   *      TYPEDEFS
+   **********************/
 
-/**********************
- * GLOBAL PROTOTYPES
- **********************/
-void stmpe610_init(void);
-bool stmpe610_read(lv_indev_drv_t * drv, lv_indev_data_t * data);
+  /**********************
+   * GLOBAL PROTOTYPES
+   **********************/
+  void stmpe610_init(void);
+  bool stmpe610_read(lv_indev_drv_t *drv, lv_indev_data_t *data);
 
-/**********************
- *      MACROS
- **********************/
+  /**********************
+   *      MACROS
+   **********************/
 
 #ifdef __cplusplus
 } /* extern "C" */

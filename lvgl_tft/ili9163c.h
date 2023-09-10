@@ -15,8 +15,8 @@ extern "C"
  *      INCLUDES
  *********************/
 #include <stdbool.h>
-
-#ifdef LV_LVGL_H_INCLUDE_SIMPLE
+#include "sdkconfig.h"
+#ifdef CONFIG_LV_LVGL_H_INCLUDE_SIMPLE
 #include "lvgl.h"
 #else
 #include "lvgl/lvgl.h"
@@ -26,26 +26,26 @@ extern "C"
 /*********************
  *      DEFINES
  *********************/
-#define ILI9163C_DC            CONFIG_LV_DISP_PIN_DC
-#define ILI9163C_RST           CONFIG_LV_DISP_PIN_RST
+#define ILI9163C_DC CONFIG_LV_DISP_PIN_DC
+#define ILI9163C_RST CONFIG_LV_DISP_PIN_RST
 #define ILI9163C_INVERT_COLORS CONFIG_LV_INVERT_COLORS
 
-/**********************
- *      TYPEDEFS
- **********************/
+  /**********************
+   *      TYPEDEFS
+   **********************/
 
-/**********************
- * GLOBAL PROTOTYPES
- **********************/
+  /**********************
+   * GLOBAL PROTOTYPES
+   **********************/
 
-void ili9163c_init(void);
-void ili9163c_flush(lv_disp_drv_t *drv, const lv_area_t *area, lv_color_t *color_map);
-void ili9163c_sleep_in(void);
-void ili9163c_sleep_out(void);
+  void ili9163c_init(void);
+  void ili9163c_flush(lv_disp_drv_t *drv, const lv_area_t *area, lv_color_t *color_map);
+  void ili9163c_sleep_in(void);
+  void ili9163c_sleep_out(void);
 
-/**********************
- *      MACROS
- **********************/
+  /**********************
+   *      MACROS
+   **********************/
 
 #ifdef __cplusplus
 } /* extern "C" */

@@ -7,15 +7,16 @@
 #define GC9A01_H
 
 #ifdef __cplusplus
-extern "C" {
+extern "C"
+{
 #endif
 
 /*********************
  *      INCLUDES
  *********************/
 #include <stdbool.h>
-
-#ifdef LV_LVGL_H_INCLUDE_SIMPLE
+#include "sdkconfig.h"
+#ifdef CONFIG_LV_LVGL_H_INCLUDE_SIMPLE
 #include "lvgl.h"
 #else
 #include "lvgl/lvgl.h"
@@ -25,28 +26,27 @@ extern "C" {
 /*********************
  *      DEFINES
  *********************/
-#define GC9A01_DC            CONFIG_LV_DISP_PIN_DC
-#define GC9A01_RST           CONFIG_LV_DISP_PIN_RST
-#define GC9A01_USE_RST       CONFIG_LV_DISP_USE_RST
+#define GC9A01_DC CONFIG_LV_DISP_PIN_DC
+#define GC9A01_RST CONFIG_LV_DISP_PIN_RST
+#define GC9A01_USE_RST CONFIG_LV_DISP_USE_RST
 #define GC9A01_INVERT_COLORS CONFIG_LV_INVERT_COLORS
 
-/**********************
- *      TYPEDEFS
- **********************/
+  /**********************
+   *      TYPEDEFS
+   **********************/
 
-/**********************
- * GLOBAL PROTOTYPES
- **********************/
+  /**********************
+   * GLOBAL PROTOTYPES
+   **********************/
 
-void GC9A01_init(void);
-void GC9A01_flush(lv_disp_drv_t * drv, const lv_area_t * area, lv_color_t * color_map);
-void GC9A01_sleep_in(void);
-void GC9A01_sleep_out(void);
+  void GC9A01_init(void);
+  void GC9A01_flush(lv_disp_drv_t *drv, const lv_area_t *area, lv_color_t *color_map);
+  void GC9A01_sleep_in(void);
+  void GC9A01_sleep_out(void);
 
-/**********************
- *      MACROS
- **********************/
-
+  /**********************
+   *      MACROS
+   **********************/
 
 #ifdef __cplusplus
 } /* extern "C" */

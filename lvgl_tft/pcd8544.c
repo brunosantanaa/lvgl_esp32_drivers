@@ -5,6 +5,7 @@
  *    https://github.com/adafruit/Adafruit-PCD8544-Nokia-5110-LCD-library
  *    https://github.com/olikraus/u8g2
  */
+#include "sdkconfig.h"
 #if CONFIG_LV_TFT_DISPLAY_CONTROLLER_PCD8544
 #include "disp_spi.h"
 #include "driver/gpio.h"

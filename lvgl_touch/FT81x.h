@@ -6,38 +6,40 @@
 #define FT81X_TOUCH__H
 
 #ifdef __cplusplus
-extern "C" {
+extern "C"
+{
 #endif
 
-/*********************
- *      INCLUDES
- *********************/
+  /*********************
+   *      INCLUDES
+   *********************/
 
 #include <stdint.h>
 #include <stdbool.h>
-#ifdef LV_LVGL_H_INCLUDE_SIMPLE
+#include "sdkconfig.h"
+#ifdef CONFIG_LV_LVGL_H_INCLUDE_SIMPLE
 #include "lvgl.h"
 #else
 #include "lvgl/lvgl.h"
 #endif
 
-/*********************
- *      DEFINES
- *********************/
+  /*********************
+   *      DEFINES
+   *********************/
 
-/**********************
- *      TYPEDEFS
- **********************/
+  /**********************
+   *      TYPEDEFS
+   **********************/
 
-/**********************
- * GLOBAL PROTOTYPES
- **********************/
-;
-bool FT81x_read(lv_indev_drv_t * drv, lv_indev_data_t * data);
+  /**********************
+   * GLOBAL PROTOTYPES
+   **********************/
+  ;
+  bool FT81x_read(lv_indev_drv_t *drv, lv_indev_data_t *data);
 
-/**********************
- *      MACROS
- **********************/
+  /**********************
+   *      MACROS
+   **********************/
 
 #ifdef __cplusplus
 } /* extern "C" */

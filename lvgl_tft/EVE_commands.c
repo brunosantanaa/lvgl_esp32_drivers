@@ -38,7 +38,7 @@ TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR TH
 		This version is based on a fork by David Jade that added native SPI DMA support and stripped out non-ESP32 code.
 		It has also been trimmed down to suit LvGL's needs. Extra features can be enabled by defining FT81X_FULL
 */
-
+#include "sdkconfig.h"
 #if CONFIG_LV_TFT_DISPLAY_CONTROLLER_FT81X
 #include <stdio.h>
 

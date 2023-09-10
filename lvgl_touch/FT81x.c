@@ -5,6 +5,7 @@
 /*********************
  *      INCLUDES
  *********************/
+#include "sdkconfig.h"
 #if CONFIG_LV_TOUCH_CONTROLLER_FT81X
 #include "esp_system.h"
 #include "esp_log.h"

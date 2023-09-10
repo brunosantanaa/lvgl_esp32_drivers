@@ -1,6 +1,7 @@
 /**
  * @file ADCRAW.c
  */
+#include "sdkconfig.h"
 #if CONFIG_LV_TOUCH_CONTROLLER_ADCRAW
 #include "adcraw.h"
 #include "esp_system.h"

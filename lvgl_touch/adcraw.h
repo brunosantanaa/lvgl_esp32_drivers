@@ -1,19 +1,20 @@
 /**
-* @file ADCRAW.h
-*/
+ * @file ADCRAW.h
+ */
 
 #ifndef ADCRAW_H
 #define ADCRAW_H
 
 #ifdef __cplusplus
-extern "C" {
+extern "C"
+{
 #endif
-
+#include "sdkconfig.h"
 #include <stdint.h>
 #include <stdbool.h>
 #include "driver/gpio.h"
 #include "driver/adc.h"
-#ifdef LV_LVGL_H_INCLUDE_SIMPLE
+#ifdef CONFIG_LV_LVGL_H_INCLUDE_SIMPLE
 #include "lvgl.h"
 #else
 #include "lvgl/lvgl.h"
@@ -35,42 +36,43 @@ extern "C" {
 #define TOUCHCAL_LRY 928 // Lower Right Y
 
 #define TOUCHSCREEN_RESISTIVE_PRESS_THRESHOLD 1023
-	
+
 /*GetMaxX Macro*/
 #if CONFIG_LV_DISPLAY_ORIENTATION_LANDSCAPE
-#define GetMaxX()   (LV_HOR_RES_MAX - 1)
+#define GetMaxX() (LV_HOR_RES_MAX - 1)
 #else
-#define GetMaxX()   (LV_VER_RES_MAX - 1)
+#define GetMaxX() (LV_VER_RES_MAX - 1)
 #endif
 
 /*GetMaxY Macro*/
 #if CONFIG_LV_DISPLAY_ORIENTATION_LANDSCAPE
-#define GetMaxY()   (LV_VER_RES_MAX - 1)
+#define GetMaxY() (LV_VER_RES_MAX - 1)
 #else
-#define GetMaxY()   (LV_HOR_RES_MAX - 1)
+#define GetMaxY() (LV_HOR_RES_MAX - 1)
 #endif
 
 #ifndef CONCAT3
-#define _CONCAT3(a,b,c) a ## b ## c
-#define CONCAT3(a,b,c) _CONCAT3(a,b,c)
+#define _CONCAT3(a, b, c) a##b##c
+#define CONCAT3(a, b, c) _CONCAT3(a, b, c)
 #endif
 
 #define GPIO_TO_ADC_ELEMENT(x) [x] = CONCAT3(ADC1_GPIO, x, _CHANNEL)
 
-typedef enum {
-    IDLE,
-    SET_X,
-    SET_Y,
-    SET_Z1,
-    SET_Z2,
-	READ_X,
-	READ_Y,
-	READ_Z1,
-	READ_Z2
-} TOUCH_STATES; 
+    typedef enum
+    {
+        IDLE,
+        SET_X,
+        SET_Y,
+        SET_Z1,
+        SET_Z2,
+        READ_X,
+        READ_Y,
+        READ_Z1,
+        READ_Z2
+    } TOUCH_STATES;
 
-void adcraw_init(void);
-bool adcraw_read(lv_indev_drv_t * drv, lv_indev_data_t * data);
+    void adcraw_init(void);
+    bool adcraw_read(lv_indev_drv_t *drv, lv_indev_data_t *data);
 
 #ifdef __cplusplus
 } /* extern "C" */

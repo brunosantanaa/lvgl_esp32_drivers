@@ -6,6 +6,7 @@
 /*********************
  *      INCLUDES
  *********************/
+#include "sdkconfig.h"
 #if CONFIG_LV_TFT_DISPLAY_CONTROLLER_SH1107
 #include "sh1107.h"
 #include "disp_spi.h"

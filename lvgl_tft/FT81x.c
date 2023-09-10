@@ -1,3 +1,4 @@
+#include "sdkconfig.h"
 #if CONFIG_LV_TFT_DISPLAY_CONTROLLER_FT81X
 #include <stdio.h>
 

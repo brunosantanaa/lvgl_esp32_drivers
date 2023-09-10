@@ -6,6 +6,7 @@
 /*********************
  *      INCLUDES
  *********************/
+#include "sdkconfig.h"
 #if CONFIG_LV_TOUCH_CONTROLLER_XPT2046
 #include "xpt2046.h"
 #include "esp_system.h"

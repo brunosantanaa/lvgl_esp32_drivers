@@ -1,6 +1,7 @@
 /**
  * @file touch_driver.c
  */
+#include "sdkconfig.h"
 #if CONFIG_LV_TOUCH_CONTROLLER
 #include "touch_driver.h"
 #include "tp_spi.h"

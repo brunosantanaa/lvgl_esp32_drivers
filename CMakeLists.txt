@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.16.0)
-project(lvgl_esp32_drivers)
 
-include($ENV{IDF_PATH}/tools/cmake/project.cmake)
+get_filename_component(PARENT_DIR "${CMAKE_CURRENT_SOURCE_DIR}/.." DIRECTORY)
+get_filename_component(PARENT_DIR_NAME "${PARENT_DIR}" NAME)
 
 file(GLOB SOURCES *.c)
 set(LVGL_INCLUDE_DIRS . lvgl_tft)
@@ -87,8 +87,10 @@ if(CONFIG_LV_I2C)
     list(APPEND SOURCES "lvgl_i2c/i2c_manager.c")
 endif()
 
-idf_component_register(SRCS ${SOURCES}
+if (PARENT_DIR_NAME STREQUAL "components")
+    idf_component_register(SRCS ${SOURCES}
                        INCLUDE_DIRS ${LVGL_INCLUDE_DIRS}
                        REQUIRES lvgl)
 
-target_compile_definitions(${COMPONENT_LIB} PUBLIC "-DLV_LVGL_H_INCLUDE_SIMPLE")
+    target_compile_definitions(${COMPONENT_LIB} PUBLIC "-DLV_LVGL_H_INCLUDE_SIMPLE")
+endif()

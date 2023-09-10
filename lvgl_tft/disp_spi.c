@@ -6,6 +6,7 @@
 /*********************
  *      INCLUDES
  *********************/
+#include "sdkconfig.h"
 #if CONFIG_LV_TFT_DISPLAY_PROTOCOL_SPI
 #include "esp_system.h"
 #include "driver/gpio.h"
@@ -20,7 +21,7 @@
 #include <freertos/semphr.h>
 #include <freertos/task.h>
 
-#ifdef LV_LVGL_H_INCLUDE_SIMPLE
+#ifdef CONFIG_LV_LVGL_H_INCLUDE_SIMPLE
 #include "lvgl.h"
 #else
 #include "lvgl/lvgl.h"

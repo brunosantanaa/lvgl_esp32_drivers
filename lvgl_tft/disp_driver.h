@@ -6,13 +6,15 @@
 #define DISP_DRIVER_H
 
 #ifdef __cplusplus
-extern "C" {
+extern "C"
+{
 #endif
 
 /*********************
  *      INCLUDES
  *********************/
-#ifdef LV_LVGL_H_INCLUDE_SIMPLE
+#include "sdkconfig.h"
+#ifdef CONFIG_LV_LVGL_H_INCLUDE_SIMPLE
 #include "lvgl.h"
 #else
 #include "lvgl/lvgl.h"
@@ -56,34 +58,34 @@ extern "C" {
 #include "pcd8544.h"
 #endif
 
-/*********************
- *      DEFINES
- *********************/
+    /*********************
+     *      DEFINES
+     *********************/
 
-/**********************
- *      TYPEDEFS
- **********************/
+    /**********************
+     *      TYPEDEFS
+     **********************/
 
-/**********************
- * GLOBAL PROTOTYPES
- **********************/
+    /**********************
+     * GLOBAL PROTOTYPES
+     **********************/
 
-/* Initialize display */
-void *disp_driver_init(void);
+    /* Initialize display */
+    void *disp_driver_init(void);
 
-/* Display flush callback */
-void disp_driver_flush(lv_disp_drv_t * drv, const lv_area_t * area, lv_color_t * color_map);
+    /* Display flush callback */
+    void disp_driver_flush(lv_disp_drv_t *drv, const lv_area_t *area, lv_color_t *color_map);
 
-/* Display rounder callback, used with monochrome dispays */
-void disp_driver_rounder(lv_disp_drv_t * disp_drv, lv_area_t * area);
+    /* Display rounder callback, used with monochrome dispays */
+    void disp_driver_rounder(lv_disp_drv_t *disp_drv, lv_area_t *area);
 
-/* Display set_px callback, used with monochrome dispays */
-void disp_driver_set_px(lv_disp_drv_t * disp_drv, uint8_t * buf, lv_coord_t buf_w, lv_coord_t x, lv_coord_t y,
-    lv_color_t color, lv_opa_t opa);
+    /* Display set_px callback, used with monochrome dispays */
+    void disp_driver_set_px(lv_disp_drv_t *disp_drv, uint8_t *buf, lv_coord_t buf_w, lv_coord_t x, lv_coord_t y,
+                            lv_color_t color, lv_opa_t opa);
 
-/**********************
- *      MACROS
- **********************/
+    /**********************
+     *      MACROS
+     **********************/
 
 #ifdef __cplusplus
 } /* extern "C" */

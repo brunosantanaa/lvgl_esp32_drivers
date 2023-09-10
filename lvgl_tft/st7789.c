@@ -3,10 +3,10 @@
  *
  * Mostly taken from lbthomsen/esp-idf-littlevgl github.
  */
+#include "sdkconfig.h"
 #if CONFIG_LV_TFT_DISPLAY_CONTROLLER_ST7789
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
-#include "sdkconfig.h"
 
 #include "esp_log.h"
 

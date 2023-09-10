@@ -5,6 +5,7 @@
 /*********************
  *      INCLUDES
  *********************/
+#include "sdkconfig.h"
 #if CONFIG_LV_TOUCH_CONTROLLER_RA8875
 #include "esp_log.h"
 #include "freertos/FreeRTOS.h"

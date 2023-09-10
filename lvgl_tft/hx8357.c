@@ -15,6 +15,7 @@
 /*********************
  *      INCLUDES
  *********************/
+#include "sdkconfig.h"
 #if CONFIG_LV_TFT_DISPLAY_CONTROLLER_HX8357
 #include "hx8357.h"
 #include "disp_spi.h"

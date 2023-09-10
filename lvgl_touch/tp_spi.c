@@ -6,6 +6,7 @@
 /*********************
  *      INCLUDES
  *********************/
+#include "sdkconfig.h"
 #if CONFIG_LV_TOUCH_DRIVER_PROTOCOL_SPI
 #include "tp_spi.h"
 #include "touch_driver.h"

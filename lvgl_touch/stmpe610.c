@@ -5,6 +5,7 @@
 /*********************
  *      INCLUDES
  *********************/
+#include "sdkconfig.h"
 #if CONFIG_LV_TOUCH_CONTROLLER_STMPE610
 #include "stmpe610.h"
 #include "esp_system.h"
